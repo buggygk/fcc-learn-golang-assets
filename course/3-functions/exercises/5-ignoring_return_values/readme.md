@@ -5,7 +5,7 @@ A function can return a value that the caller doesn't care about. We can explici
 For example:
 
 ```go
-func getPoint() (x int, y int) {
+func getPoint() (x int, y int) (int,int) {
   return 3, 4
 }
 
