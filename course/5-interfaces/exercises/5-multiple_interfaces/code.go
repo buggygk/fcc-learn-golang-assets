@@ -4,12 +4,20 @@ import (
 	"fmt"
 )
 
+var costPerCharNotSubscribed float64 = 0.05
+var costPerCharSubscribed float64 = 0.01
+
 func (e email) cost() float64 {
-	// ?
+	if e.isSubscribed {
+		return costPerCharSubscribed * float64(len(e.body))
+
+	} else {
+		return costPerCharNotSubscribed * float64(len(e.body))
+	}
 }
 
 func (e email) print() {
-	// ?
+	fmt.Println(e.body)
 }
 
 // don't touch below this line
@@ -27,10 +35,6 @@ type email struct {
 	body         string
 }
 
-func print(p printer) {
-	p.print()
-}
-
 func test(e expense, p printer) {
 	fmt.Printf("Printing with cost: $%.2f ...\n", e.cost())
 	p.print()
@@ -38,24 +42,24 @@ func test(e expense, p printer) {
 }
 
 func main() {
-	e := email{
+	m := email{
 		isSubscribed: true,
 		body:         "hello there",
 	}
-	test(e, e)
-	e = email{
+	test(m, m)
+	m = email{
 		isSubscribed: false,
 		body:         "I want my money back",
 	}
-	test(e, e)
-	e = email{
+	test(m, m)
+	m = email{
 		isSubscribed: true,
 		body:         "Are you free for a chat?",
 	}
-	test(e, e)
-	e = email{
+	test(m, m)
+	m = email{
 		isSubscribed: false,
 		body:         "This meeting could have been an email",
 	}
-	test(e, e)
+	test(m, m)
 }

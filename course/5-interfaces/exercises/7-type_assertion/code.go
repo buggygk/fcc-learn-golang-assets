@@ -5,7 +5,17 @@ import (
 )
 
 func getExpenseReport(e expense) (string, float64) {
-	// ?
+	em, isEmail := e.(email)
+	sm, isSms := e.(sms)
+	if isEmail {
+		return em.toAddress, em.cost()
+	}
+	if isSms {
+		return sm.toPhoneNumber, sm.cost()
+	}
+
+	return "", 0.0
+
 }
 
 // don't touch below this line
@@ -45,10 +55,6 @@ type sms struct {
 }
 
 type invalid struct{}
-
-func estimateYearlyCost(e expense, averageMessagesPerYear int) float64 {
-	return e.cost() * float64(averageMessagesPerYear)
-}
 
 func test(e expense) {
 	address, cost := getExpenseReport(e)
